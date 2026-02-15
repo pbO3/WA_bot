@@ -1,0 +1,77 @@
+import sqlite3
+
+conn = sqlite3.connect("tasks.db", check_same_thread=False)
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS tasks(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    task TEXT,
+    due_time TEXT,
+    status TEXT DEFAULT 'pending'
+)
+""")
+
+def add_task(task, due_time):
+    cursor.execute("INSERT INTO tasks (task, due_time) VALUES (?,?)",(task,due_time))
+    conn.commit()
+
+def get_all_tasks():
+    cursor.execute("SELECT * FROM tasks")
+    return cursor.fetchall()
+
+def get_due_tasks():
+    from datetime import datetime, timedelta
+
+    now = datetime.now()
+    one_minute_ago = now - timedelta(minutes=1)
+
+    now_str = now.strftime("%Y-%m-%d %H:%M")
+    past_str = one_minute_ago.strftime("%Y-%m-%d %H:%M")
+
+    cursor.execute("""
+        SELECT * FROM tasks
+        WHERE due_time BETWEEN ? AND ?
+        AND status='pending'
+    """, (past_str, now_str))
+
+    return cursor.fetchall()
+
+def mark_asked(task_id):
+    cursor.execute("UPDATE tasks SET status='asked' WHERE id=?", (task_id,))
+    conn.commit()
+
+
+def delete_old_tasks():
+    from datetime import datetime, timedelta
+    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+    cursor.execute("DELETE FROM tasks WHERE due_time < ?", (yesterday,))
+    conn.commit()
+
+def mark_asked(task_id):
+    cursor.execute("UPDATE tasks SET status='asked' WHERE id=?", (task_id,))
+    conn.commit()
+
+
+def get_last_asked():
+    cursor.execute("SELECT id FROM tasks WHERE status='asked' ORDER BY id DESC LIMIT 1")
+    result = cursor.fetchone()
+    return result[0] if result else None
+
+def mark_done(task_id):
+    cursor.execute("UPDATE tasks SET status='done' WHERE id=?", (task_id,))
+    conn.commit()
+
+
+def snooze_task(task_id, minutes):
+    from datetime import datetime, timedelta
+
+    cursor.execute("SELECT due_time FROM tasks WHERE id=?", (task_id,))
+    due = cursor.fetchone()[0]
+
+    new_time = datetime.strptime(due, "%Y-%m-%d %H:%M") + timedelta(minutes=minutes)
+
+    cursor.execute("UPDATE tasks SET due_time=?, status='pending' WHERE id=?",
+                   (new_time.strftime("%Y-%m-%d %H:%M"), task_id))
+    conn.commit()
+
