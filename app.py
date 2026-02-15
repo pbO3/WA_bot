@@ -23,26 +23,6 @@ print("ENV TEST:", os.getenv("TEST_MESSAGE"))
 def home():
     return "Check your terminal output"
 
-# -------- send message function --------
-def send_message(to, text):
-    url = f"https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages"
-
-    headers = {
-        "Authorization": f"Bearer {ACCESS_TOKEN}",
-        "Content-Type": "application/json"
-    }
-
-    data = {
-        "messaging_product": "whatsapp",
-        "to": to,
-        "type": "text",
-        "text": {"body": text}
-    }
-
-    response = requests.post(url, headers=headers, json=data)
-
-    print("STATUS:", response.status_code)
-    print("RESPONSE:", response.text)
 
 
 # -------- webhook verification --------

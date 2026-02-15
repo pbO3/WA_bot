@@ -1,8 +1,8 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 from database import get_due_tasks, mark_asked
+from messenger import send_message
 
-from app import send_message
 
 USER_NUMBER = "919315544065"
 
