@@ -7,7 +7,8 @@ import os
 USER_NUMBER = "919315544065"
 
 def check_reminders():
-    
+    print("Scheduler checking...", now_ist())
+
     tasks = get_due_tasks()
 
     for task in tasks:
