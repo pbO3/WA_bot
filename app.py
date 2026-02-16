@@ -30,13 +30,21 @@ def home():
 @app.route("/webhook", methods=["GET"])
 def verify():
 
-
     verify_token = os.getenv("VERIFY_TOKEN")
+
     mode = request.args.get("hub.mode")
     token = request.args.get("hub.verify_token")
     challenge = request.args.get("hub.challenge")
-    
+
+     # ---- Clean both tokens ----
+    if token:
+        token = token.strip()
+
+    if verify_token:
+        verify_token = verify_token.strip()
+
     print("SERVER VERIFY TOKEN:", verify_token)
+    print("META TOKEN:", token)
 
     if mode == "subscribe" and token == verify_token:
         print("Webhook verified successfully")
