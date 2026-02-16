@@ -1,5 +1,5 @@
 from flask import Flask, request
-from flask import requests
+import requests
 import os
 from dotenv import load_dotenv
 from datetime import datetime
