@@ -33,5 +33,4 @@ scheduler.add_job(
     misfire_grace_time=120
 )
 
-if os.environ.get("RUN_MAIN") == "true" or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
-    scheduler.start()
+scheduler.start()
