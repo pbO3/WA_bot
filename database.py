@@ -1,4 +1,7 @@
 import sqlite3
+from time_utils import now_ist
+from datetime import timedelta
+
 
 conn = sqlite3.connect("tasks.db", check_same_thread=False)
 cursor = conn.cursor()
@@ -23,7 +26,10 @@ def get_all_tasks():
 def get_due_tasks():
     from datetime import datetime, timedelta
 
-    now = datetime.now()
+    # Current Indian time
+    now = now_ist()
+
+    # 1 minute window
     one_minute_ago = now - timedelta(minutes=1)
 
     now_str = now.strftime("%Y-%m-%d %H:%M")
@@ -43,9 +49,9 @@ def mark_asked(task_id):
 
 
 def delete_old_tasks():
-    from datetime import datetime, timedelta
-    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
-    cursor.execute("DELETE FROM tasks WHERE due_time < ?", (yesterday,))
+    cutoff = now_ist() - timedelta(days=1)
+    cutoff_str = cutoff.strftime("%Y-%m-%d %H:%M")
+    cursor.execute("DELETE FROM tasks WHERE due_time < ?", (cutoff_str,))
     conn.commit()
 
 def mark_asked(task_id):
@@ -69,8 +75,12 @@ def snooze_task(task_id, minutes):
     cursor.execute("SELECT due_time FROM tasks WHERE id=?", (task_id,))
     due = cursor.fetchone()[0]
 
-    new_time = datetime.strptime(due, "%Y-%m-%d %H:%M") + timedelta(minutes=minutes)
+    # Parse stored IST time
+    due_dt = IST.localize(datetime.strptime(due, "%Y-%m-%d %H:%M"))
 
+    # Add snooze
+    new_time = due_dt + timedelta(minutes=minutes)
+    
     cursor.execute("UPDATE tasks SET due_time=?, status='pending' WHERE id=?",
                    (new_time.strftime("%Y-%m-%d %H:%M"), task_id))
     conn.commit()

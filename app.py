@@ -6,7 +6,7 @@ from datetime import datetime
 from database import add_task, get_all_tasks, delete_old_tasks
 import scheduler
 from messenger import send_message
-
+from time_utils import IST
 
 load_dotenv()
 
@@ -78,8 +78,9 @@ def webhook():
                 time_text = parts[-2] + " " + parts[-1]
 
 
+                
                 from datetime import datetime
-                due_time = datetime.strptime(time_text, "%d-%m %H:%M")
+                due_time = IST.localize(datetime.strptime(time_text, "%d-%m %H:%M"))
                 due_time = due_time.replace(year=datetime.now().year)
 
                 add_task(task_text, due_time.strftime("%Y-%m-%d %H:%M"))
