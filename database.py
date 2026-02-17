@@ -1,5 +1,5 @@
 import sqlite3
-from time_utils import now_ist
+from time_utils import now_ist, IST
 from datetime import timedelta
 
 

@@ -138,6 +138,7 @@ def webhook():
 
 
         elif message.startswith("snooze"):
+            from database import snooze_task
 
             parts = message.split()
 
