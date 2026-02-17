@@ -60,17 +60,25 @@ def webhook():
     data = request.get_json()
 
     try:
-        # Check if message exists in webhook payload
-        if "messages" not in data["entry"][0]["changes"][0]["value"]:
+        value = data["entry"][0]["changes"][0]["value"]
+
+        if "messages" not in value:
             return "ok", 200
 
-        message = data["entry"][0]["changes"][0]["value"]["messages"][0]["text"]["body"]
-        sender = data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
+        msg_obj = value["messages"][0]
+        sender = msg_obj["from"]
+
+        # ---- SAFE TEXT EXTRACTION ----
+        if msg_obj["type"] == "text":
+            message = msg_obj["text"]["body"]
+        else:
+            message = ""
+
         message = message.lower().strip()
 
         print("User:", message)
 
-        # ---- ADD COMMAND ----
+    # ---- ADD COMMAND ----
         if message.startswith("add"):
             try:
                 parts = message.split(" ")
@@ -128,24 +136,26 @@ def webhook():
             else:
                 send_message(sender, "No active task to complete.")
 
-        elif message.startswith("snooze"):
-            try:
-                minutes = int(message.split()[1])
 
-                from database import snooze_task, get_last_asked
+        elif message.startswith("snooze"):
+
+            parts = message.split()
+
+            if len(parts) == 2 and parts[1].isdigit():
+
+                minutes = int(parts[1])
                 task_id = get_last_asked()
 
                 if task_id:
                     snooze_task(task_id, minutes)
-                    send_message(sender, f"⏰ Snoozed for {minutes} minutes")
+                    send_message(sender, f"⏳ Snoozed for {minutes} minutes.")
                 else:
-                    send_message(sender, "No task to snooze.")
-            except:
+                    send_message(sender, "No active reminder found.")
+
+            else:
                 send_message(sender, "Use: snooze 10")
 
-        else:
-            send_message(sender, "Send:\nadd <task> DD-MM HH:MM\nor\nlist")
-
+        
     except Exception as e:
         print("Webhook error:", e)
 
