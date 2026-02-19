@@ -7,6 +7,11 @@ from database import add_task, get_all_tasks, delete_old_tasks
 import scheduler
 from messenger import send_message
 from time_utils import IST
+from ai_intent import extract_intent
+import json
+
+
+
 
 load_dotenv()
 
@@ -75,6 +80,43 @@ def webhook():
             message = ""
 
         message = message.lower().strip()
+        intent = None
+        task = None
+        time_text = None
+        minutes = None
+
+        try:
+            ai_raw = extract_intent(message)
+            print("AI RAW:", ai_raw)
+
+            intent_data = json.loads(ai_raw)
+
+            intent = intent_data.get("intent")
+            task = intent_data.get("task")
+            time_text = intent_data.get("time")
+            minutes = intent_data.get("minutes")
+
+        except Exception as e:
+            print("AI failed:", e)
+
+    if intent == "reminder" and task and time_text:
+        add_task(task, time_text)
+        send_message(sender, f"Okay 👍 I will remind you at {time_text}")
+        return "ok", 200
+
+    elif intent == "snooze" and minutes:
+        task_id = get_last_asked()
+        if task_id:
+            snooze_task(task_id, int(minutes))
+            send_message(sender, f"Snoozed for {minutes} minutes ⏳")
+            return "ok", 200
+
+    elif intent == "complete":
+        task_id = get_last_asked()
+        if task_id:
+            mark_done(task_id)
+            send_message(sender, "Great! Marked completed ✔️")
+            return "ok", 200
 
         print("User:", message)
 
