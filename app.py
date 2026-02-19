@@ -99,26 +99,26 @@ def webhook():
         except Exception as e:
             print("AI failed:", e)
 
-    if intent == "reminder" and task and time_text:
-        add_task(task, time_text)
-        send_message(sender, f"Okay 👍 I will remind you at {time_text}")
-        return "ok", 200
-
-    elif intent == "snooze" and minutes:
-        task_id = get_last_asked()
-        if task_id:
-            snooze_task(task_id, int(minutes))
-            send_message(sender, f"Snoozed for {minutes} minutes ⏳")
+        if intent == "reminder" and task and time_text:
+            add_task(task, time_text)
+            send_message(sender, f"Okay 👍 I will remind you at {time_text}")
             return "ok", 200
 
-    elif intent == "complete":
-        task_id = get_last_asked()
-        if task_id:
-            mark_done(task_id)
-            send_message(sender, "Great! Marked completed ✔️")
-            return "ok", 200
+        elif intent == "snooze" and minutes:
+            task_id = get_last_asked()
+            if task_id:
+                snooze_task(task_id, int(minutes))
+                send_message(sender, f"Snoozed for {minutes} minutes ⏳")
+                return "ok", 200
 
-        print("User:", message)
+        elif intent == "complete":
+            task_id = get_last_asked()
+            if task_id:
+                mark_done(task_id)
+                send_message(sender, "Great! Marked completed ✔️")
+                return "ok", 200
+
+            print("User:", message)
 
     # ---- ADD COMMAND ----
         if message.startswith("add"):
