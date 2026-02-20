@@ -19,13 +19,12 @@ def add_task(task, due_datetime):
     due_time_str = due_datetime.strftime("%Y-%m-%d %H:%M:%S")
     cursor.execute("""
         INSERT INTO tasks (task, due_time, status)
-        VALUES (?, ?, ?, 'pending')
-    """, (task, due_datetime.strftime("%d %b %I:%M %p"), due_time_str))
+        VALUES (?, ?, 'pending')
+    """, (task, due_time_str))
     conn.commit()
 
 def get_active_tasks(limit=15):
     
-
     cursor.execute("""
         SELECT id, task, due_time, status
         FROM tasks
