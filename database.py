@@ -15,9 +15,30 @@ CREATE TABLE IF NOT EXISTS tasks(
 )
 """)
 
-def add_task(task, due_time):
-    cursor.execute("INSERT INTO tasks (task, due_time) VALUES (?,?)",(task,due_time))
+def add_task(task, due_datetime):
+    due_time_str = due_datetime.strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute("""
+        INSERT INTO tasks (task, task_time, due_time, status)
+        VALUES (?, ?, ?, 'pending')
+    """, (task, due_datetime.strftime("%d %b %I:%M %p"), due_time_str))
     conn.commit()
+
+def get_active_tasks(limit=15):
+    
+
+    cursor.execute("""
+        SELECT id, task, due_time, status
+        FROM tasks
+        WHERE status != 'done'
+        ORDER BY due_time ASC
+        LIMIT ?
+    """, (limit,))
+
+    rows = cursor.fetchall()
+
+    return rows
+
+
 
 def get_all_tasks():
     cursor.execute("SELECT * FROM tasks")

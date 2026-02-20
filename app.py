@@ -3,7 +3,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from datetime import datetime
-from database import add_task, get_all_tasks, delete_old_tasks
+from database import add_task, get_all_tasks, delete_old_tasks, get_active_tasks
 import scheduler
 from messenger import send_message
 from time_utils import IST
@@ -11,6 +11,8 @@ from ai_intent import extract_intent
 import json
 from time_parser import parse_time
 
+import pytz
+from time_utils import human_time
 
 
 
@@ -130,6 +132,60 @@ def webhook():
                 return "ok", 200
 
             print("User:", message)
+        
+
+        elif intent == "list":
+
+            tasks = get_active_tasks()
+
+            if not tasks:
+                send_message(sender, "You're free 😄 No pending tasks right now.")
+                return "ok", 200
+
+
+            IST = pytz.timezone("Asia/Kolkata")
+            now = datetime.now(IST)
+
+            message = "📋 Here's what you need to do:\n\n"
+
+            overdue_section = ""
+            today_section = ""
+            upcoming_section = ""
+
+            for t in tasks:
+                task_id, task_name, due_time, status = t
+
+                readable = human_time(due_time)
+
+                dt = datetime.strptime(due_time, "%Y-%m-%d %H:%M:%S")
+                dt = IST.localize(dt)
+
+                if dt < now:
+                    overdue_section += f"🔴 {task_name} ({readable})\n"
+
+                elif dt.date() == now.date():
+                    today_section += f"🟡 {task_name} ({readable})\n"
+
+                else:
+                    upcoming_section += f"🟢 {task_name} ({readable})\n"
+
+            if overdue_section:
+                message += "Overdue:\n" + overdue_section + "\n"
+
+            if today_section:
+                message += "Today:\n" + today_section + "\n"
+
+            if upcoming_section:
+                message += "Upcoming:\n" + upcoming_section + "\n"
+
+            message += "Reply 'done' after completing or 'snooze 10' to delay ⏳"
+
+            send_message(sender, message)
+            return "ok", 200
+
+        
+
+
 
     # ---- ADD COMMAND ----
         if message.startswith("add"):

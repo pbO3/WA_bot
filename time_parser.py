@@ -9,8 +9,6 @@ def parse_time(time_text):
     if not time_text:
         return None
 
-    now = datetime.now(IST)
-
     parsed = dateparser.parse(
         time_text,
         settings={
@@ -24,7 +22,7 @@ def parse_time(time_text):
     if parsed is None:
         return None
 
-    # ensure IST timezone
+    # normalize timezone
     parsed = parsed.astimezone(IST)
 
-    return parsed.strftime("%Y-%m-%d %H:%M")
+    return parsed   # <-- return datetime, NOT string
