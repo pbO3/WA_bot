@@ -9,6 +9,8 @@ from messenger import send_message
 from time_utils import IST
 from ai_intent import extract_intent
 import json
+from time_parser import parse_time
+
 
 
 
@@ -99,9 +101,18 @@ def webhook():
         except Exception as e:
             print("AI failed:", e)
 
+
         if intent == "reminder" and task and time_text:
-            add_task(task, time_text)
-            send_message(sender, f"Okay 👍 I will remind you at {time_text}")
+
+            due_time = parse_time(time_text)
+
+            if not due_time:
+                send_message(sender, "I couldn't understand the time 😅. Please tell me like 'tomorrow 7 pm'")
+                return "ok", 200
+
+            add_task(task,due_time)
+
+            send_message(sender, f"Got it 👍 I will remind you at {due_time}")
             return "ok", 200
 
         elif intent == "snooze" and minutes:
