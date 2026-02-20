@@ -142,6 +142,9 @@ def webhook():
                 send_message(sender, "You're free 😄 No pending tasks right now.")
                 return "ok", 200
 
+            from datetime import datetime
+            import pytz
+            from time_utils import human_time
 
             IST = pytz.timezone("Asia/Kolkata")
             now = datetime.now(IST)
