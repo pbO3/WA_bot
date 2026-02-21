@@ -23,6 +23,14 @@ delete_old_tasks()
 
 app = Flask(__name__)
 
+import os
+
+# Prevent multiple schedulers in Gunicorn workers
+if os.environ.get("WERKZEUG_RUN_MAIN") == "true" or os.environ.get("RUN_MAIN") == "true":
+    from scheduler import start_scheduler
+    start_scheduler()
+
+
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")

@@ -6,6 +6,8 @@ import os
 
 USER_NUMBER = "919315544065"
 
+scheduler = BackgroundScheduler()
+
 def check_reminders():
     print("Scheduler checking...", now_ist())
 
@@ -22,15 +24,18 @@ def check_reminders():
 
         mark_asked(task_id)
 
-scheduler = BackgroundScheduler()
 
-scheduler.add_job(
-    check_reminders,
-    'interval',
-    minutes=1,
-    max_instances=1,
-    coalesce=True,
-    misfire_grace_time=120
-)
 
-scheduler.start()
+def start_scheduler():
+    """Start scheduler ONLY when explicitly called"""
+    if not scheduler.running:
+        scheduler.add_job(
+            check_reminders,
+            'interval',
+            minutes=1,
+            max_instances=1,
+            coalesce=True,
+            misfire_grace_time=120
+        )
+        scheduler.start()
+        print("✅ Scheduler started")
