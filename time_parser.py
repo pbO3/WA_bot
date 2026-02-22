@@ -1,6 +1,7 @@
 import dateparser
 from datetime import datetime
 import pytz
+from datetime import timedelta
 
 IST = pytz.timezone("Asia/Kolkata")
 
@@ -14,7 +15,8 @@ def parse_time(time_text):
         settings={
             "TIMEZONE": "Asia/Kolkata",
             "RETURN_AS_TIMEZONE_AWARE": True,
-            "PREFER_DATES_FROM": "future"
+            "PREFER_DATES_FROM": "future",
+            "RELATIVE_BASE": datetime.now(IST)
         },
         languages=["en", "hi"]
     )
@@ -24,5 +26,10 @@ def parse_time(time_text):
 
     # normalize timezone
     parsed = parsed.astimezone(IST)
+
+    now = datetime.now(IST)
+
+    if parsed < now:
+        parsed = parsed + timedelta(days=1)
 
     return parsed   # <-- return datetime, NOT string

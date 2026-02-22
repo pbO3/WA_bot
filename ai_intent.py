@@ -32,6 +32,28 @@ If user asks reminder → fill task and time.
 If snooze → fill minutes.
 If completion → intent = complete.
 If unclear → intent = unknown.
+
+
+IMPORTANT RULE:
+Do NOT normalize or shorten the time.
+
+Return the complete time phrase from the user's message including words like:
+today, tomorrow, kal, aaj, shaam, raat, morning, evening, after, later.
+
+The backend parser will interpret it.
+
+User: remind me to call at 7 pm today
+time: "7 pm today"
+
+User: kal shaam yaad dila dena
+time: "kal shaam"
+
+User: 10 minute baad pani
+time: "10 minute baad"
+
+User: tomorrow morning meeting
+time: "tomorrow morning"
+
 """
 
 def extract_intent(message):
