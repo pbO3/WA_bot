@@ -88,33 +88,48 @@ def webhook():
         msg_obj = value["messages"][0]
         sender = msg_obj["from"]
 
-        # ---- SAFE TEXT EXTRACTION ----
-        if msg_obj["type"] == "text":
-            message = msg_obj["text"]["body"]
+        # ---- HANDLE BUTTON CLICK ----
+        if msg_obj["type"] == "interactive":
+            button_id = msg_obj["interactive"]["button_reply"]["id"]
+        
+            if button_id == "complete_task":
+                intent = "complete"
+        
+            elif button_id == "snooze_10":
+                intent = "snooze"
+                minutes = 10
+        
+            message = ""   # no text to send to AI
+        
+        # ---- HANDLE NORMAL TEXT ----
+        elif msg_obj["type"] == "text":
+            message = msg_obj["text"]["body"].lower().strip()
+        
+        # ---- OTHER TYPES (image, sticker, etc.) ----
         else:
             message = ""
 
-        message = message.lower().strip()
+        
         intent = None
         task = None
         time_text = None
         minutes = None
 
         
-
-        try:
-            ai_raw = extract_intent(message)
-            print("AI RAW:", ai_raw)
-
-            intent_data = json.loads(ai_raw)
-
-            intent = intent_data.get("intent")
-            task = intent_data.get("task")
-            time_text = intent_data.get("time")
-            minutes = intent_data.get("minutes")
-
-        except Exception as e:
-            print("AI failed:", e)
+        if intent is None and message:
+            try:
+                ai_raw = extract_intent(message)
+                print("AI RAW:", ai_raw)
+    
+                intent_data = json.loads(ai_raw)
+    
+                intent = intent_data.get("intent")
+                task = intent_data.get("task")
+                time_text = intent_data.get("time")
+                minutes = intent_data.get("minutes")
+    
+            except Exception as e:
+                print("AI failed:", e)
 
 
         if intent == "reminder" and task and time_text:
@@ -126,8 +141,8 @@ def webhook():
                 return "ok", 200
 
             add_task(task,due_time)
-
-            send_message(sender, f"Got it 👍 I will remind you at {due_time}")
+            readable = due_time.strftime("%I:%M %p")
+            send_message(sender, f"Got it 👍 I will remind you at {readable}")
             return "ok", 200
 
         elif intent == "snooze" and minutes:
@@ -217,8 +232,8 @@ def webhook():
                 due_time = due_time.replace(year=datetime.now().year)
 
                 add_task(task_text, due_time.strftime("%Y-%m-%d %H:%M"))
-
-                send_message(sender, f"Reminder saved for {due_time}")
+                readable = due_time.strftime("%I:%M %p")
+                send_message(sender, f"Reminder saved for {readable}")
 
             except:
                 send_message(sender, "Format: add <task> DD-MM HH:MM")
