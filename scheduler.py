@@ -39,3 +39,13 @@ def start_scheduler():
         )
         scheduler.start()
         print("✅ Scheduler started")
+
+
+if __name__ == "__main__":
+    print("Starting reminder worker...")
+    start_scheduler()
+
+    # keep process alive
+    import time
+    while True:
+        time.sleep(60)
