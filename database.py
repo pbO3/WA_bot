@@ -93,12 +93,12 @@ def snooze_task(task_id, minutes):
     due = cursor.fetchone()[0]
 
     # Parse stored IST time
-    due_dt = IST.localize(datetime.strptime(due, "%Y-%m-%d %H:%M"))
+    due_dt = IST.localize(datetime.strptime(due, "%Y-%m-%d %H:%M:%S"))
 
     # Add snooze
     new_time = due_dt + timedelta(minutes=minutes)
     
     cursor.execute("UPDATE tasks SET due_time=?, status='pending' WHERE id=?",
-                   (new_time.strftime("%Y-%m-%d %H:%M"), task_id))
+                   (new_time.strftime("%Y-%m-%d %H:%M:%S"), task_id))
     conn.commit()
 
