@@ -1,6 +1,10 @@
 import sqlite3
 from time_utils import now_ist, IST
 from datetime import timedelta
+from datetime import datetime
+import pytz
+
+IST = pytz.timezone("Asia/Kolkata")
 
 
 conn = sqlite3.connect("tasks.db", check_same_thread=False)
