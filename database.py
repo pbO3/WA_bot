@@ -44,22 +44,15 @@ def get_all_tasks():
     return cursor.fetchall()
 
 def get_due_tasks():
-    from datetime import datetime, timedelta
-
-    # Current Indian time
-    now = now_ist()
-
-    # 1 minute window
-    one_minute_ago = now - timedelta(minutes=1)
-
-    now_str = now.strftime("%Y-%m-%d %H:%M")
-    past_str = one_minute_ago.strftime("%Y-%m-%d %H:%M")
+    cursor = conn.cursor()
+    now_str = datetime.now(IST).strftime("%Y-%m-%d %H:%M:%S")
 
     cursor.execute("""
-        SELECT * FROM tasks
-        WHERE due_time BETWEEN ? AND ?
-        AND status='pending'
-    """, (past_str, now_str))
+        SELECT id, task
+        FROM tasks
+        WHERE due_time <= ?
+        AND status = 'pending'
+    """, (now_str,))
 
     return cursor.fetchall()
 
