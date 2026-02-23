@@ -1,8 +1,8 @@
 print("SCHEDULER FILE LOADED")
 from apscheduler.schedulers.background import BackgroundScheduler
 from database import get_due_tasks, mark_asked
-from messenger import send_message
 from time_utils import now_ist
+from messenger import send_buttons_message
 import os
 
 USER_NUMBER = "919315544065"
@@ -18,10 +18,9 @@ def check_reminders():
         task_id = task[0]
         task_text = task[1]
 
-        send_message(
-            USER_NUMBER,
-            f"⏰ {task_text}\nDid you complete it?\nReply: yes or snooze 10"
-        )
+        
+        send_buttons_message(USER_NUMBER, task_text)
+        
 
         mark_asked(task_id)
 
