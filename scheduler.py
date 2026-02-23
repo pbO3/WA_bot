@@ -1,3 +1,4 @@
+print("SCHEDULER FILE LOADED")
 from apscheduler.schedulers.background import BackgroundScheduler
 from database import get_due_tasks, mark_asked
 from messenger import send_message
