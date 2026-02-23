@@ -28,20 +28,22 @@ def check_reminders():
 
 
 def start_scheduler():
-    print("start_scheduler() called")
-    """Start scheduler ONLY when explicitly called"""
-    if not scheduler.running:
-        scheduler.add_job(
-            check_reminders,
-            'interval',
-            minutes=1,
-            max_instances=1,
-            coalesce=True,
-            misfire_grace_time=120
-        )
-        scheduler.start()
-        print("✅ Scheduler started")
+    if scheduler.running:
+        return
 
+    print("start_scheduler() called")
+
+    scheduler.add_job(
+        check_reminders,
+        'interval',
+        minutes=1,
+        max_instances=1,
+        coalesce=True,
+        misfire_grace_time=120
+    )
+
+    scheduler.start()
+    print("✅ Scheduler started")
 
 if __name__ == "__main__":
     print("Starting reminder worker...")
