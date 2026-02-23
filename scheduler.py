@@ -28,6 +28,7 @@ def check_reminders():
 
 
 def start_scheduler():
+    print("start_scheduler() called")
     """Start scheduler ONLY when explicitly called"""
     if not scheduler.running:
         scheduler.add_job(
