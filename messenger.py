@@ -66,6 +66,3 @@ def send_buttons_message(to, task_text):
 
 
     
-    # ---- THIS IS WHAT WE NEED ----
-    print("WHATSAPP STATUS:", response.status_code)
-    print("WHATSAPP RESPONSE:", response.text)
