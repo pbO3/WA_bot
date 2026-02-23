@@ -100,6 +100,17 @@ def webhook():
         time_text = None
         minutes = None
 
+        if "interactive" in message:
+            button_id = message["interactive"]["button_reply"]["id"]
+
+                if button_id == "complete_task":
+                    intent = "complete"
+
+                elif button_id == "snooze_10":
+                    intent = "snooze"
+                    minutes = 10
+        
+
         try:
             ai_raw = extract_intent(message)
             print("AI RAW:", ai_raw)
@@ -144,7 +155,7 @@ def webhook():
 
             print("User:", message)
         
-
+                    
         elif intent == "list":
 
             tasks = get_active_tasks()
