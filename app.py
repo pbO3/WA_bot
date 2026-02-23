@@ -87,6 +87,11 @@ def webhook():
 
         msg_obj = value["messages"][0]
         sender = msg_obj["from"]
+        
+        intent = None
+        task = None
+        time_text = None
+        minutes = None
 
         # ---- HANDLE BUTTON CLICK ----
         if msg_obj["type"] == "interactive":
@@ -110,11 +115,6 @@ def webhook():
             message = ""
 
         
-        intent = None
-        task = None
-        time_text = None
-        minutes = None
-
         
         if intent is None and message:
             try:
