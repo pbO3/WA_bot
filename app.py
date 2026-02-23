@@ -22,6 +22,9 @@ load_dotenv()
 delete_old_tasks()
 
 app = Flask(__name__)
+from scheduler import start_scheduler
+
+start_scheduler()
 
 import os
 
