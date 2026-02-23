@@ -3,7 +3,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from datetime import datetime
-from database import add_task, get_all_tasks, delete_old_tasks, get_active_tasks
+from database import add_task, get_all_tasks, delete_old_tasks, get_active_tasks, get_last_asked, snooze_task, mark_done 
 import scheduler
 from messenger import send_message
 from time_utils import IST
@@ -267,7 +267,7 @@ def webhook():
                 send_message(sender, text)
 
         elif message == "yes":
-            from database import mark_done, get_last_asked
+          
 
             task_id = get_last_asked()
             if task_id:
@@ -278,7 +278,7 @@ def webhook():
 
 
         elif message.startswith("snooze"):
-            from database import snooze_task, get_last_asked
+            
 
             parts = message.split()
 
