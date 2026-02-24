@@ -36,7 +36,7 @@ def parse_time(time_text):
         return None
 
     time_text = normalize_human_time(time_text)
-    
+        print(time_text)    
     parsed = dateparser.parse(
         time_text,
         settings={
