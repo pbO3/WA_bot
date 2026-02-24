@@ -6,6 +6,29 @@ import re
 
 IST = pytz.timezone("Asia/Kolkata")
 
+def clean_time_phrase(text: str):
+    text = text.lower().strip()
+
+    # remove common Hindi postpositions that confuse parsers
+    junk_words = [
+        r"\bko\b",
+        r"\bme\b",
+        r"\bmai\b",
+        r"\bpar\b",
+        r"\btak\b",
+        r"\bse\b",
+        r"\bha(i|e)?\b",
+        r"\bhh\b"
+    ]
+
+    for junk in junk_words:
+        text = re.sub(junk, "", text)
+
+    # collapse extra spaces
+    text = re.sub(r"\s+", " ", text).strip()
+
+    return text
+
 def normalize_human_time(text: str):
     text = text.lower()
 
@@ -34,7 +57,11 @@ def parse_time(time_text):
 
     if not time_text:
         return None
+        
+    #New step added
+    time_text = clean_time_phrase(time_text)
 
+    
     time_text = normalize_human_time(time_text)
     print(time_text)    
     parsed = dateparser.parse(
