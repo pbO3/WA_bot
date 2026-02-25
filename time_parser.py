@@ -24,6 +24,26 @@ def clean_time_phrase(text: str):
     for junk in junk_words:
         text = re.sub(junk, "", text)
 
+    # 2️⃣ Hinglish → English date words
+    hinglish_map = {
+        r"\baaj\b": "today",
+        r"\baj\b": "today",
+        r"\bkal\b": "tomorrow",
+        r"\bsubah\b": "morning",
+        r"\bshaam\b": "evening",
+        r"\bsham\b": "evening",
+        r"\braat\b": "night",
+        r"\brat\b": "night",
+        r"\babhi\b": "now",
+        r"\bthodi der baad\b": "in 15 minutes",
+        r"\baad mein\b": "later",
+        r"\baad me\b": "later",
+    }
+
+    for pattern, replacement in hinglish_map.items():
+        text = re.sub(pattern, replacement, text)
+
+
     # collapse extra spaces
     text = re.sub(r"\s+", " ", text).strip()
 
