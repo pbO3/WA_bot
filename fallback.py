@@ -3,7 +3,7 @@ import uuid
 import sqlite3
 from datetime import datetime
 import pytz
-from messenger import send_message, send_message_with_context
+from messenger import send_message
 
 DB_PATH = "tasks.db"
 IST = pytz.timezone("Asia/Kolkata")
