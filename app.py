@@ -185,6 +185,7 @@ def handle_owner_intent(sender, intent, task, time_text, minutes, language):
             return
 
         add_task(task, due_time)
+        due_time_str = due_time.strftime("%Y-%m-%d %H:%M:%S")
         send_message(sender, f"✅ Reminder set!\n📝 {task}\n⏰ {human_time(due_time)}")
 
     # ── Snooze last reminder ──
