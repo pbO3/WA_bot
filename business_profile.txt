@@ -1,0 +1,211 @@
+THE HORA BAKEHOUSE
+
+Date: 03 March 2026
+
+------------------------------------------------------------------------
+
+1.  BUSINESS OVERVIEW
+
+The Hora Bakehouse is a premium artisan bakery offering high-quality
+breads, cakes, pastries, desserts, and savory items. This document is
+prepared to support the WhatsApp Automation Bot, ensuring that every
+possible customer query can be answered accurately and professionally.
+
+------------------------------------------------------------------------
+
+2.  LOCATION DETAILS
+
+Business Name: The Hora Bakehouse
+Address: Hno 1000, Gagan vihar, New Delhi
+Landmark: Near DAV public School
+City/State/Pincode: 110051
+
+Google Maps Link: https://maps.app.goo.gl/EmFpGvnEkRnTcwey6
+
+Parking Availability: - Two-Wheeler Parking: Available - Four-Wheeler
+Parking: Available - Valet: Not Available (Optional – Edit if
+applicable)
+
+------------------------------------------------------------------------
+
+3.  BUSINESS HOURS
+
+Monday – Sunday: 8:00 AM – 10:00 PM
+(Adjust as per actual business timing)
+
+Holiday Policy: Open all days including weekends. Special festival
+timings may vary.
+
+------------------------------------------------------------------------
+
+4.  COMPLETE MENU (DETAILED)
+
+A)  ARTISAN BREADS
+
+-   Classic Sourdough
+-   Multigrain Bread
+-   Whole Wheat Bread
+-   Brioche Loaf
+-   Garlic Bread
+-   Focaccia (Herb / Olive)
+-   Baguette
+-   Milk Bread
+-   Ciabatta
+
+B)  CAKES (Regular & Custom)
+
+-   Chocolate Truffle Cake
+-   Dutch Chocolate Cake
+-   Black Forest Cake
+-   White Forest Cake
+-   Red Velvet Cake
+-   Pineapple Cake
+-   Butterscotch Cake
+-   Fruit Cake
+-   Caramel Crunch Cake
+-   Lotus Biscoff Cake
+-   Cheesecake (Blueberry / Mango / Oreo)
+-   Designer Theme Cakes
+-   Photo Cakes
+-   Wedding Cakes
+-   Anniversary Cakes
+-   Birthday Cakes (Kids & Adult Themes)
+
+C)  PASTRIES & DESSERTS
+
+-   Chocolate Pastry
+-   Red Velvet Pastry
+-   Tiramisu Cup
+-   Brownie with Nuts
+-   Walnut Brownie
+-   Choco Lava Cake
+-   Cupcakes (Chocolate / Vanilla / Red Velvet)
+-   Macarons
+-   Éclairs
+-   Mousse Cups (Chocolate / Mango)
+-   Pudding (Caramel / Chocolate)
+
+D)  COOKIES & SNACKS
+
+-   Chocolate Chip Cookies
+-   Oatmeal Cookies
+-   Almond Cookies
+-   Butter Cookies
+-   Peanut Butter Cookies
+-   Rusk
+-   Biscotti
+
+E)  SAVORY ITEMS
+
+-   Veg Puff
+-   Paneer Puff
+-   Chicken Puff
+-   Cheese Corn Puff
+-   Veg Sandwich
+-   Grilled Sandwich
+-   Quiche (Veg / Chicken)
+-   Garlic Knots
+-   Stuffed Croissants
+
+F)  BEVERAGES (Optional – If Offered)
+
+-   Cappuccino
+-   Latte
+-   Americano
+-   Cold Coffee
+-   Hot Chocolate
+-   Iced Tea
+-   Fresh Juices
+
+------------------------------------------------------------------------
+
+5.  BESTSELLERS
+
+-   Chocolate Truffle Cake
+-   Red Velvet Cake
+-   Lotus Biscoff Cake
+-   Brownie with Ice Cream
+-   Classic Sourdough Bread
+-   Veg Puff
+
+------------------------------------------------------------------------
+
+6.  HEALTHY OPTIONS AVAILABLE
+
+-   Whole Wheat Bread
+-   Multigrain Bread
+-   Sugar-Free Cake (On Order)
+-   Gluten-Free Cake (Pre-Order)
+-   Eggless Cakes
+-   Low-Sugar Desserts (Selected Items)
+-   Oatmeal Cookies
+
+(Custom diet-based cakes available on prior request.)
+
+------------------------------------------------------------------------
+
+7.  INGREDIENT INFORMATION
+
+We use: - Premium quality flour - Real butter (No margarine) - Fresh
+cream - Belgian chocolate (for premium cakes) - Fresh seasonal fruits -
+High-quality dry fruits
+
+No artificial preservatives in freshly baked items. Allergen Notice:
+Products may contain gluten, dairy, nuts, eggs.
+
+------------------------------------------------------------------------
+
+8.  CUSTOM ORDERS & PRE-BOOKING
+
+-   Custom cakes require 24–48 hours notice.
+-   Wedding cakes require 3–5 days advance booking.
+-   Bulk orders for corporate/events accepted.
+-   Advance payment may be required for custom designs.
+
+------------------------------------------------------------------------
+
+9.  CURRENT OFFERS (Editable Section)
+
+-   Buy 1 Get 1 on selected pastries (Weekdays 4–6 PM)
+-   10% discount on birthday cake pre-orders
+-   Festive special combos available
+-   Loyalty card program available
+
+(Update offers regularly in this section.)
+
+------------------------------------------------------------------------
+
+10. PAYMENT METHODS ACCEPTED
+
+-   UPI
+-   Debit/Credit Card
+-   Cash
+-   Online Transfer
+-   QR Payments
+
+------------------------------------------------------------------------
+
+11. DELIVERY OPTIONS
+
+-   In-store pickup available
+-   Local delivery available (Charges may apply)
+-   Partner delivery platforms (if applicable)
+
+------------------------------------------------------------------------
+
+12. CONTACT INFORMATION
+
+Phone Number: 9315544223 WhatsApp: 9315544233 Email: horabakehouse@gmail.com Instagram: hora_bake_house 
+
+------------------------------------------------------------------------
+
+13. CUSTOMER SUPPORT RESPONSES FOR BOT
+
+Common Queries Covered: - Menu availability - Price inquiries - Custom
+cake booking - Order tracking - Store timings - Parking availability -
+Offers & discounts - Ingredient details - Healthy options - Bulk order
+inquiries
+
+------------------------------------------------------------------------
+
+End of Document The Hora Bakehouse – Premium Artisan Experience
