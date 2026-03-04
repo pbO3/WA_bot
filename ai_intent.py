@@ -4,67 +4,97 @@ from openai import OpenAI
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-SYSTEM_PROMPT = """
-You are a WhatsApp assistant message interpreter.
+# ──────────────────────────────────────────────
+#  INTENT CLASSIFIER — decides what the message is about
+#  Returns structured JSON for the router in app.py
+# ──────────────────────────────────────────────
 
-Your job is to convert the user's message into structured JSON.
+INTENT_CLASSIFIER_PROMPT = """
+You are a WhatsApp message intent classifier.
 
-You must ONLY return JSON. No explanation.
+Your ONLY job is to classify the user message and return JSON. No explanation. No extra text.
 
 Available intents:
-- reminder  (user wants a new reminder)
-- snooze    (delay the last reminder)
-- complete  (user finished the task)
-- list      (user asking to see reminders)
-- unknown   (not related)
+
+PERSONAL (owner's own reminders):
+- reminder      → user wants to set a new reminder/task
+- snooze        → delay the last reminder
+- complete      → user completed a task
+- list          → user wants to see their reminders
+
+CUSTOMER (someone contacting the business):
+- customer_query      → asking about the business (hours, price, location, services)
+- book_appointment    → wants to book / schedule / fix a time
+- place_order         → wants to order something (food, product, service)
+- cancel              → wants to cancel an appointment or order
+- payment             → asking about payment / wants to pay
+- human_handoff       → frustrated, asking to speak to a real person
+
+GENERAL:
+- greeting            → hello, hi, hey, namaste, good morning etc
+- unknown             → doesn't fit anything above
 
 Return format:
-
 {
   "intent": "",
   "task": "",
   "time": "",
-  "minutes": null
+  "minutes": null,
+  "language": "english" | "hindi" | "hinglish"
 }
 
 Rules:
-If user asks reminder → fill task and time.
-If snooze → fill minutes.
-If completion → intent = complete.
-If unclear → intent = unknown.
+- If reminder → fill task and time
+- If snooze → fill minutes
+- If customer_query / book_appointment / place_order → leave task and time as ""
+- Always detect language
+- Do NOT normalize time. Return full time phrase as user said it.
 
+Examples:
 
-IMPORTANT RULE:
-Do NOT normalize or shorten the time.
+User: remind me to call mom at 7pm today
+→ {"intent": "reminder", "task": "call mom", "time": "7pm today", "minutes": null, "language": "english"}
 
-Return the complete time phrase from the user's message including words like:
-today, tomorrow, kal, aaj, shaam, raat, morning, evening, after, later.
+User: kal subah 9 baje meeting hai
+→ {"intent": "reminder", "task": "meeting", "time": "kal subah 9 baje", "minutes": null, "language": "hindi"}
 
-The backend parser will interpret it.
+User: what are your timings?
+→ {"intent": "customer_query", "task": "", "time": "", "minutes": null, "language": "english"}
 
-User: remind me to call at 7 pm today
-time: "7 pm today"
+User: appointment book karni hai
+→ {"intent": "book_appointment", "task": "", "time": "", "minutes": null, "language": "hindi"}
 
-User: kal shaam yaad dila dena
-time: "kal shaam"
+User: do you deliver on sundays?
+→ {"intent": "customer_query", "task": "", "time": "", "minutes": null, "language": "english"}
 
-User: 10 minute baad pani
-time: "10 minute baad"
-
-User: tomorrow morning meeting
-time: "tomorrow morning"
-
+User: snooze 15
+→ {"intent": "snooze", "task": "", "time": "", "minutes": 15, "language": "english"}
 """
 
-def extract_intent(message):
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        temperature=0,
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": message}
-        ]
-    )
+def extract_intent(message: str) -> str:
+    """
+    Classifies the user message into a structured intent JSON string.
+    Always returns a valid JSON string.
+    """
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            temperature=0,
+            messages=[
+                {"role": "system", "content": INTENT_CLASSIFIER_PROMPT},
+                {"role": "user", "content": message}
+            ]
+        )
+        return response.choices[0].message.content
 
-    return response.choices[0].message.content
+    except Exception as e:
+        print("Intent extraction failed:", e)
+        # Safe fallback — treat as unknown
+        return json.dumps({
+            "intent": "unknown",
+            "task": "",
+            "time": "",
+            "minutes": None,
+            "language": "english"
+        })

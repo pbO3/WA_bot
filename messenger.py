@@ -23,7 +23,7 @@ def send_message(to, text):
 
     response = requests.post(url, headers=headers, json=data)
     
-
+"""
 def send_buttons_message(to, task_text):
     url = f"https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages"
 
@@ -63,6 +63,6 @@ def send_buttons_message(to, task_text):
     }
 
     requests.post(url, headers=headers, json=payload)
-
+"""
 
     
