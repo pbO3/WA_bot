@@ -22,6 +22,8 @@ def send_message(to, text):
     }
 
     response = requests.post(url, headers=headers, json=data)
+    print("WHATSAPP STATUS:", response.status_code)
+    print("WHATSAPP RESPONSE:", response.json())
     
 """
 def send_buttons_message(to, task_text):
