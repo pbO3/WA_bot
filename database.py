@@ -64,6 +64,13 @@ def init_pending_table():
 init_conversation_table()
 init_pending_table()
 
+# Menu table init — imported here to avoid circular imports
+try:
+    from menu_manager import init_menu_table
+    init_menu_table()
+except Exception as e:
+    print('Menu table init skipped:', e)
+
 
 # ──────────────────────────────────────────────
 #  ORIGINAL TASK FUNCTIONS (completely unchanged)
