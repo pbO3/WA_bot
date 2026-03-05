@@ -53,6 +53,103 @@ def send_greeting_option_b(customer_number: str):
     save_conversation_turn(customer_number, "assistant", "sent_greeting_option_b")
 
 
+def _send_combined_greeting(to: str, is_returning: bool):
+    """
+    Sends ONE List Message that contains everything:
+      Header → bakehouse image
+      Body   → welcome text + address + hours + offer
+      Footer → contact
+      Action → quick option rows
+
+    Single API call = guaranteed delivery order, no race condition.
+    """
+    if is_returning:
+        body_text = (
+            "Wapas aaiye! Great to see you again 😊\n\n"
+            "📍 Hno 1000, Gagan Vihar, New Delhi\n"
+            "⏰ Open 8:00 AM – 10:00 PM · All days\n\n"
+            f"🎁 {OFFER_OF_THE_DAY}\n\n"
+            "Niche se option choose karein 👇"
+        )
+    else:
+        body_text = (
+            "Welcome to *The Hora Bakehouse* 🥐✨\n"
+            "Premium artisan breads, cakes & pastries — freshly baked daily!\n\n"
+            "📍 Hno 1000, Gagan Vihar, New Delhi\n"
+            "⏰ Open 8:00 AM – 10:00 PM · All days\n\n"
+            f"🎁 {OFFER_OF_THE_DAY}\n\n"
+            "Niche se option choose karein 👇"
+        )
+
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": to,
+        "type": "interactive",
+        "interactive": {
+            "type": "list",
+            "header": {
+                "type": "image",
+                "image": {"link": BAKEHOUSE_IMAGE_URL}
+            },
+            "body": {
+                "text": body_text
+            },
+            "footer": {
+                "text": "The Hora Bakehouse · horabakehouse@gmail.com"
+            },
+            "action": {
+                "button": "How can we help?",
+                "sections": [
+                    {
+                        "title": "Quick Options",
+                        "rows": [
+                            {
+                                "id":          "greet_menu",
+                                "title":       "🍰 View Menu",
+                                "description": "Browse our full menu with prices"
+                            },
+                            {
+                                "id":          "greet_location",
+                                "title":       "📍 Location & Hours",
+                                "description": "Address, timings & parking info"
+                            },
+                            {
+                                "id":          "greet_custom_cake",
+                                "title":       "🎂 Custom Cake Order",
+                                "description": "Birthday, wedding & theme cakes"
+                            },
+                            {
+                                "id":          "greet_offers",
+                                "title":       "🎁 Today's Offers",
+                                "description": "Current deals & discounts"
+                            },
+                            {
+                                "id":          "greet_other",
+                                "title":       "💬 Ask Something Else",
+                                "description": "Any other question or query"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+
+    response = requests.post(WA_URL, headers=HEADERS, json=payload)
+    print(f"📋 Combined greeting sent to {to}: {response.status_code}")
+
+    if response.status_code != 200:
+        print(f"⚠️  Combined greeting failed: {response.text}")
+        # Fallback — plain text if interactive fails
+        send_message(to,
+            "Welcome to *The Hora Bakehouse* 🥐✨\n\n"
+            "📍 Hno 1000, Gagan Vihar, New Delhi\n"
+            "⏰ Open 8AM–10PM\n\n"
+            f"🎁 {OFFER_OF_THE_DAY}\n\n"
+            "Reply:\n1️⃣ Menu\n2️⃣ Location\n3️⃣ Custom Cake\n4️⃣ Offers\n5️⃣ Other"
+        )
+
+
 def _send_welcome_image(to: str, is_returning: bool):
     """
     Sends the bakehouse image with full info in caption.
