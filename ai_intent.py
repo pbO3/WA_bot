@@ -31,6 +31,7 @@ CUSTOMER (someone contacting the business):
 - human_handoff       → frustrated, asking to speak to a real person
 
 GENERAL:
+- menu_request        → customer wants to see the menu
 - greeting            → hello, hi, hey, namaste, good morning etc
 - unknown             → doesn't fit anything above
 
