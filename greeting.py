@@ -41,14 +41,12 @@ def send_greeting_option_b(customer_number: str):
     history       = get_conversation_history(customer_number)
     is_returning  = len(history) > 0
 
-    # ── Step 1: Send image with welcome caption ──
-    _send_welcome_image(customer_number, is_returning)
-
-    #small delay so that the images arrive before the list
-    time.sleep(2)
-
-    # ── Step 2: Send interactive options list ──
+    # ── Step 1: Send list options first (instant delivery) ──
     _send_welcome_options(customer_number)
+
+    # ── Step 2: Send image with full caption (arrives as follow-up card) ──
+    # Image is sent after list so it never blocks or delays the options
+    _send_welcome_image(customer_number, is_returning)
 
     # ── Save to conversation history ──
     save_conversation_turn(customer_number, "user",      "greeting")
