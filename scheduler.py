@@ -3,6 +3,7 @@ from database import get_due_tasks, mark_asked
 from messenger import send_message
 from time_utils import now_ist
 from fallback import check_pending_fallbacks
+from menu_manager import check_low_stock
 import os
 
 USER_NUMBER = os.getenv("OWNER_NUMBER", "919315544065")
@@ -61,6 +62,17 @@ def start_scheduler():
             misfire_grace_time=300,
             id="fallbacks"
         )
+
+        scheduler.add_job(
+            check_fallbacks,
+            'interval',
+            minutes=5,          # Check every 5 min — no need to be as frequent as reminders
+            max_instances=1,
+            coalesce=True,
+            misfire_grace_time=300,
+            id="fallbacks"
+        )
+
 
         scheduler.start()
         print("✅ Scheduler started — reminders + fallback checker running")
