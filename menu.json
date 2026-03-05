@@ -1,0 +1,532 @@
+{
+  "restaurant_name": "The Hora Bakehouse",
+  "currency": "\u20b9",
+  "low_stock_default_threshold": 3,
+  "categories": [
+    {
+      "id": "breads",
+      "name": "\ud83c\udf5e Artisan Breads",
+      "items": [
+        {
+          "id": "BR001",
+          "name": "Classic Sourdough",
+          "price": 280,
+          "veg": true,
+          "stock": 20
+        },
+        {
+          "id": "BR002",
+          "name": "Multigrain Bread",
+          "price": 220,
+          "veg": true,
+          "stock": 20
+        },
+        {
+          "id": "BR003",
+          "name": "Whole Wheat Bread",
+          "price": 180,
+          "veg": true,
+          "stock": 20
+        },
+        {
+          "id": "BR004",
+          "name": "Brioche Loaf",
+          "price": 320,
+          "veg": true,
+          "stock": 15
+        },
+        {
+          "id": "BR005",
+          "name": "Garlic Bread",
+          "price": 150,
+          "veg": true,
+          "stock": 25
+        },
+        {
+          "id": "BR006",
+          "name": "Focaccia Herb",
+          "price": 260,
+          "veg": true,
+          "stock": 15
+        },
+        {
+          "id": "BR007",
+          "name": "Focaccia Olive",
+          "price": 280,
+          "veg": true,
+          "stock": 15
+        },
+        {
+          "id": "BR008",
+          "name": "Baguette",
+          "price": 180,
+          "veg": true,
+          "stock": 20
+        },
+        {
+          "id": "BR009",
+          "name": "Milk Bread",
+          "price": 120,
+          "veg": true,
+          "stock": 25
+        },
+        {
+          "id": "BR010",
+          "name": "Ciabatta",
+          "price": 200,
+          "veg": true,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "id": "cakes",
+      "name": "\ud83c\udf82 Cakes",
+      "items": [
+        {
+          "id": "CK001",
+          "name": "Chocolate Truffle",
+          "price": 650,
+          "veg": true,
+          "stock": 10
+        },
+        {
+          "id": "CK002",
+          "name": "Dutch Chocolate",
+          "price": 600,
+          "veg": true,
+          "stock": 10
+        },
+        {
+          "id": "CK003",
+          "name": "Black Forest",
+          "price": 580,
+          "veg": true,
+          "stock": 10
+        },
+        {
+          "id": "CK004",
+          "name": "White Forest",
+          "price": 580,
+          "veg": true,
+          "stock": 10
+        },
+        {
+          "id": "CK005",
+          "name": "Red Velvet Cake",
+          "price": 680,
+          "veg": true,
+          "stock": 10
+        },
+        {
+          "id": "CK006",
+          "name": "Pineapple Cake",
+          "price": 520,
+          "veg": true,
+          "stock": 10
+        },
+        {
+          "id": "CK007",
+          "name": "Butterscotch Cake",
+          "price": 520,
+          "veg": true,
+          "stock": 10
+        },
+        {
+          "id": "CK008",
+          "name": "Fruit Cake",
+          "price": 600,
+          "veg": true,
+          "stock": 8
+        },
+        {
+          "id": "CK009",
+          "name": "Caramel Crunch Cake",
+          "price": 700,
+          "veg": true,
+          "stock": 8
+        },
+        {
+          "id": "CK010",
+          "name": "Lotus Biscoff Cake",
+          "price": 750,
+          "veg": true,
+          "stock": 8
+        },
+        {
+          "id": "CK011",
+          "name": "Blueberry Cheesecake",
+          "price": 720,
+          "veg": true,
+          "stock": 6
+        },
+        {
+          "id": "CK012",
+          "name": "Mango Cheesecake",
+          "price": 700,
+          "veg": true,
+          "stock": 6
+        },
+        {
+          "id": "CK013",
+          "name": "Oreo Cheesecake",
+          "price": 700,
+          "veg": true,
+          "stock": 6
+        }
+      ]
+    },
+    {
+      "id": "custom_cakes",
+      "name": "\ud83c\udfa8 Custom Cakes",
+      "items": [
+        {
+          "id": "CC001",
+          "name": "Designer Theme Cake",
+          "price": 1200,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "CC002",
+          "name": "Photo Cake",
+          "price": 900,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "CC003",
+          "name": "Wedding Cake",
+          "price": 3500,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "CC004",
+          "name": "Anniversary Cake",
+          "price": 1100,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "CC005",
+          "name": "Kids Birthday Cake",
+          "price": 950,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "CC006",
+          "name": "Adult Birthday Cake",
+          "price": 1100,
+          "veg": true,
+          "stock": 99
+        }
+      ]
+    },
+    {
+      "id": "pastries",
+      "name": "\ud83c\udf70 Pastries & Desserts",
+      "items": [
+        {
+          "id": "PS001",
+          "name": "Chocolate Pastry",
+          "price": 120,
+          "veg": true,
+          "stock": 20
+        },
+        {
+          "id": "PS002",
+          "name": "Red Velvet Pastry",
+          "price": 130,
+          "veg": true,
+          "stock": 20
+        },
+        {
+          "id": "PS003",
+          "name": "Tiramisu Cup",
+          "price": 180,
+          "veg": true,
+          "stock": 15
+        },
+        {
+          "id": "PS004",
+          "name": "Brownie with Nuts",
+          "price": 120,
+          "veg": true,
+          "stock": 25
+        },
+        {
+          "id": "PS005",
+          "name": "Walnut Brownie",
+          "price": 130,
+          "veg": true,
+          "stock": 25
+        },
+        {
+          "id": "PS006",
+          "name": "Choco Lava Cake",
+          "price": 160,
+          "veg": true,
+          "stock": 15
+        },
+        {
+          "id": "PS007",
+          "name": "Chocolate Cupcake",
+          "price": 80,
+          "veg": true,
+          "stock": 30
+        },
+        {
+          "id": "PS008",
+          "name": "Vanilla Cupcake",
+          "price": 80,
+          "veg": true,
+          "stock": 30
+        },
+        {
+          "id": "PS009",
+          "name": "Red Velvet Cupcake",
+          "price": 90,
+          "veg": true,
+          "stock": 30
+        },
+        {
+          "id": "PS010",
+          "name": "Macarons",
+          "price": 60,
+          "veg": true,
+          "stock": 40
+        },
+        {
+          "id": "PS011",
+          "name": "Eclairs",
+          "price": 70,
+          "veg": true,
+          "stock": 30
+        },
+        {
+          "id": "PS012",
+          "name": "Chocolate Mousse Cup",
+          "price": 150,
+          "veg": true,
+          "stock": 15
+        },
+        {
+          "id": "PS013",
+          "name": "Mango Mousse Cup",
+          "price": 150,
+          "veg": true,
+          "stock": 15
+        },
+        {
+          "id": "PS014",
+          "name": "Caramel Pudding",
+          "price": 120,
+          "veg": true,
+          "stock": 15
+        },
+        {
+          "id": "PS015",
+          "name": "Chocolate Pudding",
+          "price": 120,
+          "veg": true,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "id": "cookies",
+      "name": "\ud83c\udf6a Cookies & Snacks",
+      "items": [
+        {
+          "id": "CO001",
+          "name": "Choco Chip Cookies",
+          "price": 80,
+          "veg": true,
+          "stock": 30
+        },
+        {
+          "id": "CO002",
+          "name": "Oatmeal Cookies",
+          "price": 80,
+          "veg": true,
+          "stock": 30
+        },
+        {
+          "id": "CO003",
+          "name": "Almond Cookies",
+          "price": 100,
+          "veg": true,
+          "stock": 25
+        },
+        {
+          "id": "CO004",
+          "name": "Butter Cookies",
+          "price": 80,
+          "veg": true,
+          "stock": 30
+        },
+        {
+          "id": "CO005",
+          "name": "Peanut Butter Cookies",
+          "price": 90,
+          "veg": true,
+          "stock": 25
+        },
+        {
+          "id": "CO006",
+          "name": "Rusk",
+          "price": 60,
+          "veg": true,
+          "stock": 40
+        },
+        {
+          "id": "CO007",
+          "name": "Biscotti",
+          "price": 90,
+          "veg": true,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "id": "savory",
+      "name": "\ud83e\udd50 Savory Items",
+      "items": [
+        {
+          "id": "SV001",
+          "name": "Veg Puff",
+          "price": 50,
+          "veg": true,
+          "stock": 30
+        },
+        {
+          "id": "SV002",
+          "name": "Paneer Puff",
+          "price": 60,
+          "veg": true,
+          "stock": 25
+        },
+        {
+          "id": "SV003",
+          "name": "Chicken Puff",
+          "price": 70,
+          "veg": false,
+          "stock": 25
+        },
+        {
+          "id": "SV004",
+          "name": "Cheese Corn Puff",
+          "price": 65,
+          "veg": true,
+          "stock": 25
+        },
+        {
+          "id": "SV005",
+          "name": "Veg Sandwich",
+          "price": 80,
+          "veg": true,
+          "stock": 20
+        },
+        {
+          "id": "SV006",
+          "name": "Grilled Sandwich",
+          "price": 100,
+          "veg": true,
+          "stock": 20
+        },
+        {
+          "id": "SV007",
+          "name": "Veg Quiche",
+          "price": 150,
+          "veg": true,
+          "stock": 10
+        },
+        {
+          "id": "SV008",
+          "name": "Chicken Quiche",
+          "price": 180,
+          "veg": false,
+          "stock": 10
+        },
+        {
+          "id": "SV009",
+          "name": "Garlic Knots",
+          "price": 80,
+          "veg": true,
+          "stock": 20
+        },
+        {
+          "id": "SV010",
+          "name": "Veg Stuffed Croissant",
+          "price": 130,
+          "veg": true,
+          "stock": 15
+        },
+        {
+          "id": "SV011",
+          "name": "Chkn Stuffed Croissant",
+          "price": 160,
+          "veg": false,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "id": "beverages",
+      "name": "\u2615 Beverages",
+      "items": [
+        {
+          "id": "BV001",
+          "name": "Cappuccino",
+          "price": 120,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "BV002",
+          "name": "Latte",
+          "price": 130,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "BV003",
+          "name": "Americano",
+          "price": 100,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "BV004",
+          "name": "Cold Coffee",
+          "price": 150,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "BV005",
+          "name": "Hot Chocolate",
+          "price": 140,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "BV006",
+          "name": "Iced Tea",
+          "price": 100,
+          "veg": true,
+          "stock": 99
+        },
+        {
+          "id": "BV007",
+          "name": "Fresh Juice",
+          "price": 120,
+          "veg": true,
+          "stock": 99
+        }
+      ]
+    }
+  ]
+}
