@@ -53,16 +53,28 @@ def send_greeting_option_b(customer_number: str):
 
 
 def _send_welcome_image(to: str, is_returning: bool):
-    """Sends the bakehouse image with a warm caption."""
+    """
+    Sends the bakehouse image with full info in caption.
+    Caption contains: name, tagline, address, hours, today's offer.
+    The list message that follows only needs the options — no repetition.
+    """
 
-    caption = (
-        f"Welcome back to *The Hora Bakehouse* 🥐✨\n"
-        f"Great to see you again!"
-        if is_returning else
-        f"Welcome to *The Hora Bakehouse* 🥐✨\n"
-        f"Premium artisan breads, cakes & more — freshly baked daily!\n\n"
-        f"Hno 1000, Gagan Vihar, New Delhi · Open 8AM–10PM"
-    )
+    if is_returning:
+        caption = (
+            f"Welcome back to *The Hora Bakehouse* 🥐✨\n"
+            f"Great to see you again!\n\n"
+            f"📍 Hno 1000, Gagan Vihar, New Delhi\n"
+            f"⏰ Open 8:00 AM – 10:00 PM · All days\n\n"
+            f"🎁 {OFFER_OF_THE_DAY}"
+        )
+    else:
+        caption = (
+            f"Welcome to *The Hora Bakehouse* 🥐✨\n"
+            f"Premium artisan breads, cakes & pastries — freshly baked daily!\n\n"
+            f"📍 Hno 1000, Gagan Vihar, New Delhi\n"
+            f"⏰ Open 8:00 AM – 10:00 PM · All days\n\n"
+            f"🎁 {OFFER_OF_THE_DAY}"
+        )
 
     payload = {
         "messaging_product": "whatsapp",
@@ -93,13 +105,13 @@ def _send_welcome_options(to: str):
             "type": "list",
             "header": {
                 "type": "text",
-                "text": "🥐 The Hora Bakehouse"
+                "text": "🥐 How can we help you today?"
             },
             "body": {
-                "text": "Aap kaise madad kar sakte hain aaj? 😊\nNiche se option choose karein 👇"
+                "text": "Choose an option below 👇"
             },
             "footer": {
-                "text": OFFER_OF_THE_DAY
+                "text": "The Hora Bakehouse · horabakehouse@gmail.com"
             },
             "action": {
                 "button": "How can we help?",
