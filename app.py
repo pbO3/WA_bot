@@ -15,6 +15,10 @@ from time_utils import IST, human_time
 from ai_intent import extract_intent
 from time_parser import parse_time
 from owner_clone import get_owner_clone_reply, get_greeting_reply, get_handoff_message
+from menu_messages import send_category_list, send_items_list, send_item_detail, send_full_menu_text
+from menu_manager import get_item_by_id
+from owner_menu_update import handle_owner_menu_update
+from greeting import send_greeting, handle_greeting_reply
 
 load_dotenv()
 delete_old_tasks()
@@ -75,6 +79,11 @@ def webhook():
 
         msg_obj = value["messages"][0]
         sender  = msg_obj["from"]
+
+        # ── Handle interactive replies (List Message taps / Button taps) ──
+        if msg_obj["type"] == "interactive":
+            handle_interactive(sender, msg_obj["interactive"])
+            return "ok", 200
 
         # Extract text safely — ignore media/stickers for now
         if msg_obj["type"] == "text":
@@ -157,12 +166,22 @@ def route_message(sender: str, message: str):
     minutes  = intent_data.get("minutes")
     language = intent_data.get("language", "english")
 
-    # ── Step 2: If owner is messaging → handle personal intents ──
+    # ── Step 2: If owner → check menu update first (fast keyword gate) ──
+    if is_owner:
+        if handle_owner_menu_update(message):
+            return  # Was a menu update — handled
+
+    # ── Step 3: Owner personal intents (reminders etc.) ──
     if is_owner and intent in ("reminder", "snooze", "complete", "list"):
         handle_owner_intent(sender, intent, task, time_text, minutes, language)
         return
 
-    # ── Step 3: All other cases → Owner Clone handles it ──
+    # ── Step 4: Customer → menu request? ──
+    if intent == "menu_request":
+        send_category_list(sender)
+        return
+
+    # ── Step 5: All other cases → Owner Clone handles it ──
     handle_customer_intent(sender, message, intent, language)
 
 
@@ -257,10 +276,10 @@ def handle_customer_intent(sender, message, intent, language):
     Special intents get dedicated handlers.
     """
 
-    # ── Greeting → warm welcome ──
+    # ── Greeting → image + options ──
     if intent == "greeting":
-        reply = get_greeting_reply(sender, language)
-        send_message(sender, reply)
+        send_greeting(sender)
+        return
 
     # ── Human handoff request → notify owner ──
     elif intent == "human_handoff":
@@ -299,3 +318,85 @@ def notify_owner_of_handoff(customer_number, customer_message):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+
+# ──────────────────────────────────────────────
+#  INTERACTIVE MESSAGE HANDLER
+#  Handles List Message selections + Button taps
+# ──────────────────────────────────────────────
+
+def handle_interactive(sender: str, interactive: dict):
+    """
+    Called when customer taps a List item or Reply Button.
+    Meta sends interactive type + reply_id which we use to route.
+    """
+    msg_type = interactive.get("type")
+
+    # ── List Message selection ──
+    if msg_type == "list_reply":
+        reply_id = interactive["list_reply"]["id"]
+        handle_list_reply(sender, reply_id)
+
+    # ── Button tap ──
+    elif msg_type == "button_reply":
+        reply_id = interactive["button_reply"]["id"]
+        handle_button_reply(sender, reply_id)
+
+
+def handle_list_reply(sender: str, reply_id: str):
+    """
+    Routes list selections:
+    cat_[category_id]  → show items in that category
+    item_[item_id]     → show item detail + buttons
+    """
+    if reply_id.startswith("greet_"):
+        handle_greeting_reply(sender, reply_id)
+
+    elif reply_id.startswith("cat_"):
+        category_id = reply_id[4:]     # strip "cat_" prefix
+        send_items_list(sender, category_id)
+
+    elif reply_id.startswith("item_"):
+        item_id = reply_id[5:]         # strip "item_" prefix
+        item = get_item_by_id(item_id)
+        if item:
+            send_item_detail(sender, item)
+        else:
+            send_message(sender, "Item nahi mila 😅 Menu dobara dekhein?")
+            send_category_list(sender)
+
+
+def handle_button_reply(sender: str, reply_id: str):
+    """
+    Routes button taps:
+    order_[item_id]  → add to order (Phase 2C)
+    back_to_menu     → show categories again
+    ask_[item_id]    → customer has a question about this item
+    """
+    if reply_id == "back_to_menu":
+        send_category_list(sender)
+
+    elif reply_id.startswith("order_"):
+        # Phase 2C — order taking
+        # For now, acknowledge and note it's coming
+        item_id = reply_id[6:]
+        item = get_item_by_id(item_id)
+        if item:
+            send_message(
+                sender,
+                f"✅ *{item['name']}* noted!\n\n"
+                f"Abhi ordering system setup ho raha hai.\n"
+                f"Please call us or ask our staff to place your order 🙏"
+            )
+
+    elif reply_id.startswith("ask_"):
+        item_id = reply_id[4:]
+        item = get_item_by_id(item_id)
+        if item:
+            send_message(
+                sender,
+                f"*{item['name']}* ke baare mein kya jaanna chahte hain?\n"
+                f"Apna sawaal type karein 👇"
+            )
+            # Next message from this customer will go to owner clone
+            # which has the business profile context to answer
