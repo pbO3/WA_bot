@@ -44,6 +44,9 @@ def send_greeting_option_b(customer_number: str):
     # ── Step 1: Send image with welcome caption ──
     _send_welcome_image(customer_number, is_returning)
 
+    #small delay so that the images arrive before the list
+    time.sleep(2)
+
     # ── Step 2: Send interactive options list ──
     _send_welcome_options(customer_number)
 
