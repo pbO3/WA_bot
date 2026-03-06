@@ -176,12 +176,17 @@ def route_message(sender: str, message: str):
         handle_owner_intent(sender, intent, task, time_text, minutes, language)
         return
 
-    # ── Step 4: Customer → menu request? ──
+    # ── Step 4: Owner greeting → simple acknowledgement, NOT customer greeting ──
+    if is_owner and intent == "greeting":
+        send_message(sender, "Hey! Bot is running fine. Send a reminder or say stock report / list.")
+        return
+
+    # ── Step 5: Customer → menu request? ──
     if intent == "menu_request":
         send_category_list(sender)
         return
 
-    # ── Step 5: All other cases → Owner Clone handles it ──
+    # ── Step 6: All other cases → Owner Clone handles it ──
     handle_customer_intent(sender, message, intent, language)
 
 
